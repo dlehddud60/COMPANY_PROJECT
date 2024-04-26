@@ -1,9 +1,12 @@
 package com.dongyoung.company.member.controller;
 
 import com.dongyoung.company.member.model.FindRequestMemberInsertModel;
+import com.dongyoung.company.member.model.FindRequestMemberUpdateModel;
 import com.dongyoung.company.member.service.MemberService;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.apache.logging.log4j.util.PerformanceSensitive;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +37,19 @@ public class MemberController {
     public String find(@PathVariable Long memberId, Model model) {
         model.addAttribute("info",memberService.findByMemberId(memberId));
         return "/member/view";
+    }
+
+
+    @GetMapping("/update/{memberId}")
+    public String  update(@PathVariable Long memberId,Model model) {
+        model.addAttribute("info",memberService.findByMemberId(memberId));
+        return "/member/update";
+    }
+
+    @PostMapping("/update")
+    public String update(@ModelAttribute FindRequestMemberUpdateModel findRequestMemberUpdateModel) {
+        memberService.update(findRequestMemberUpdateModel);
+        return "redirect:/member/find/" + findRequestMemberUpdateModel.memberId();
     }
 
 }

@@ -2,6 +2,7 @@ package com.dongyoung.company.member.service.impl;
 
 import com.dongyoung.company.member.entity.Member;
 import com.dongyoung.company.member.model.FindRequestMemberInsertModel;
+import com.dongyoung.company.member.model.FindRequestMemberUpdateModel;
 import com.dongyoung.company.member.model.FindResponseMemberListModel;
 import com.dongyoung.company.member.model.FindResponseMemberModel;
 import com.dongyoung.company.member.repository.MemberRepository;
@@ -51,5 +52,13 @@ public class MemberServiceImpl implements MemberService {
                 member.getName(),
                 member.getAddress());
         return memberModel;
+    }
+
+    @Override
+    public void update(FindRequestMemberUpdateModel findRequestMemberUpdateModel) {
+        Member member = em.find(Member.class, findRequestMemberUpdateModel.memberId());
+        member.setName(findRequestMemberUpdateModel.name());
+        member.setAddress(findRequestMemberUpdateModel.address());
+        em.flush();
     }
 }
