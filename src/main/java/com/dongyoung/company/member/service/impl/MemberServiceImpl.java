@@ -61,4 +61,10 @@ public class MemberServiceImpl implements MemberService {
         member.setAddress(findRequestMemberUpdateModel.address());
         em.flush();
     }
+
+    @Override
+    public void delete(Long memberId) {
+        Member member = em.find(Member.class, memberId);
+        em.remove(member);
+    }
 }

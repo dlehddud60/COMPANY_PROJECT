@@ -16,4 +16,6 @@ public interface MemberService {
     FindResponseMemberModel findByMemberId(Long memberId);
 
     void update(FindRequestMemberUpdateModel findRequestMemberUpdateModel);
+
+    void delete(Long memberId);
 }
