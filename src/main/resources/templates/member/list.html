@@ -5,8 +5,7 @@
     <meta charset="UTF-8">
     <title>게시판리스트</title>
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script th:src="@{/JS/board/list.js}" src="/js/community/board/list.js"></script>
-    <link rel="stylesheet" th:href="@{/css/board/list.css}">
+    <link rel="stylesheet" th:href="@{/css/member/list.css}">
 
 </head>
 <body>
@@ -27,20 +26,18 @@
                     <thead>
                     <tr>
                         <th class="num">번호</th>
-                        <th class="title">제목</th>
-                        <th class="writer">작성자</th>
-                        <th class="inputDt">작성일</th>
+                        <th class="title">이름</th>
+                        <th class="writer">주소</th>
                     </tr>
                     </thead>
                     <tbody>
                     <th:block th:each="list : ${list}">
                         <tr>
-                            <td th:text="${list.boardId}"></td>
+                            <td th:text="${list.memberId}"></td>
                             <td>
-                                <a th:href="@{/board/find/{boardId}( boardId = ${list.boardId})}" th:text="${list.boardTitle}"></a>
+                                <a th:href="@{/member/find/{memberId}( memberId = ${list.memberId})}" th:text="${list.name}"></a>
                             </td>
-                            <td>이동영</td>
-                            <td th:text="${list.boardInputDt}"></td>
+                            <td th:text="${list.address}"></td>
                         </tr>
                     </th:block>
                     </tbody>
@@ -48,36 +45,36 @@
             </div>
         </div>
         <div class="buttonArea">
-            <div class="updateBtn Btn"><a th:href="@{/board/write}" style="color: white">작성</a> </div>
+            <div class="updateBtn Btn"><a th:href="@{/member/write}" style="color: white">작성</a> </div>
         </div>
-        <div class="pageArea" th:with="start=${(list.number/maxPage)*maxPage+1},
-        end=(${(list.totalPages == 0) ? 1 : (start + (maxPage - 1) < list.totalPages ? start + (maxPage - 1) : list.totalPages)})">
-            <div class="pageNumWrap">
-                <div class="pageNum"  th:if="${start > 1}">
-                    <a th:href="@{?(page=0, searchValue=${searchValue})}" class="page-link" href="#" aria-label="Previous">
-                        <span>&laquo;&laquo;</span>
-                    </a>
-                </div>
-                <div class="pageNum"  th:if="${start > 1}">
-                    <a th:href="@{?(page=${start - maxPage-1},searchValue=${searchValue})}">
-                        <span>&laquo;</span>
-                    </a>
-                </div>
-                <div class="pageNum" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${list.number+1 == page} ? active">
-                    <a th:href="@{?(page=${page-1},searchValue=${searchValue})}" th:text="${page}"></a>
-                </div>
-                <div class="pageNum" th:if="${end < list.totalPages}">
-                    <a th:href="@{?(page=${start + maxPage -1},searchValue=${searchValue})}"  >
-                        <span>&raquo;</span>
-                    </a>
-                </div>
-                <div class="pageNum" th:if="${end < list.totalPages}">
-                    <a th:href="@{?(page=${list.totalPages-1},searchValue=${searchValue})}">
-                        <span>&raquo;&raquo;</span>
-                    </a>
-                </div>
-            </div>
-        </div>
+<!--        <div class="pageArea" th:with="start=${(list.number/maxPage)*maxPage+1},-->
+<!--        end=(${(list.totalPages == 0) ? 1 : (start + (maxPage - 1) < list.totalPages ? start + (maxPage - 1) : list.totalPages)})">-->
+<!--            <div class="pageNumWrap">-->
+<!--                <div class="pageNum"  th:if="${start > 1}">-->
+<!--                    <a th:href="@{?(page=0, searchValue=${searchValue})}" class="page-link" href="#" aria-label="Previous">-->
+<!--                        <span>&laquo;&laquo;</span>-->
+<!--                    </a>-->
+<!--                </div>-->
+<!--                <div class="pageNum"  th:if="${start > 1}">-->
+<!--                    <a th:href="@{?(page=${start - maxPage-1},searchValue=${searchValue})}">-->
+<!--                        <span>&laquo;</span>-->
+<!--                    </a>-->
+<!--                </div>-->
+<!--                <div class="pageNum" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${list.number+1 == page} ? active">-->
+<!--                    <a th:href="@{?(page=${page-1},searchValue=${searchValue})}" th:text="${page}"></a>-->
+<!--                </div>-->
+<!--                <div class="pageNum" th:if="${end < list.totalPages}">-->
+<!--                    <a th:href="@{?(page=${start + maxPage -1},searchValue=${searchValue})}"  >-->
+<!--                        <span>&raquo;</span>-->
+<!--                    </a>-->
+<!--                </div>-->
+<!--                <div class="pageNum" th:if="${end < list.totalPages}">-->
+<!--                    <a th:href="@{?(page=${list.totalPages-1},searchValue=${searchValue})}">-->
+<!--                        <span>&raquo;&raquo;</span>-->
+<!--                    </a>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
 
     </div>
 </form>
