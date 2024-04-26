@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th ="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>게시판리스트</title>
+  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+  <script th:src="@{/JS/board/view.js}" ></script>
+  <link rel="stylesheet" th:href="@{/css/board/view.css}">
+
+</head>
+  <body>
+  <th:block th:replace="~{/include/header.html :: headerFragment}"></th:block>
+    <div class="wrap">
+      <div class="boardArea">
+
+        <div class="viewArea">
+          <table>
+            <tbody>
+              <tr>
+                <th>제목</th>
+                <td th:text="${info.boardTitle()}"></td>
+              </tr>
+
+              <tr class="detail">
+                <th>상세내용</th>
+                <td th:text="${info.boardText()}">이동영</td>
+              </tr>
+
+              <tr>
+                <th>작성자</th>
+                <td>이동영</td>
+              </tr>
+
+              <tr>
+                <th>작성일</th>
+                <td th:text="${info.boardInputDt()}">2024-04-23</td>
+              </tr>
+
+            </tbody>
+          </table>
+
+        </div>
+
+      </div>
+      <div class="buttonArea">
+        <div class="listBtn Btn"><a th:href="@{/board/list}">목록</a></div>
+        <div class="updateBtn Btn"><a th:href="@{/board/update/{boardId}(boardId = ${info.boardId()})}" th:text="수정"></a></div>
+        <div class="deleteBtn Btn"><a th:href="@{/board/delete/{boardId}(boardId = ${info.boardId()})}" th:text="삭제"></a></div>
+      </div>
+    </div>
+  <th:block th:replace="/include/header.html :: footerFragment"></th:block>
+  </body>
+</html>
