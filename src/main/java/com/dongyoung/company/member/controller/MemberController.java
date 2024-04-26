@@ -2,11 +2,14 @@ package com.dongyoung.company.member.controller;
 
 import com.dongyoung.company.member.model.FindRequestMemberInsertModel;
 import com.dongyoung.company.member.model.FindRequestMemberUpdateModel;
+import com.dongyoung.company.member.model.SearchCondition;
 import com.dongyoung.company.member.service.MemberService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.apache.logging.log4j.util.PerformanceSensitive;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,26 +28,27 @@ public class MemberController {
 
     @PostMapping("/save")
     public String save(@ModelAttribute FindRequestMemberInsertModel insertModel) {
-        log.info("===============save==============");
         memberService.save(insertModel);
         return "redirect:/member/list";
     }
 
     @GetMapping("/list")
-    public String list(Model model) {
-        model.addAttribute("list", memberService.list(model));
+    public String list(Model model, @ModelAttribute SearchCondition searchCondition, @PageableDefault(page = 0,size = 10) Pageable pageable) {
+        model.addAttribute("list", memberService.findAllByQueryDsl(searchCondition,pageable));
+        model.addAttribute("maxPage",10);
+        model.addAttribute("name",searchCondition.name());
         return "/member/list";
     }
 
     @GetMapping("/find/{memberId}")
-    public String find(@PathVariable Long memberId, Model model) {
+    public String find(@PathVariable(name = "memberId") Long memberId, Model model) {
         model.addAttribute("info", memberService.findByMemberId(memberId));
         return "/member/view";
     }
 
 
     @GetMapping("/update/{memberId}")
-    public String update(@PathVariable Long memberId, Model model) {
+    public String update(@PathVariable(name = "memberId")  Long memberId, Model model) {
         model.addAttribute("info", memberService.findByMemberId(memberId));
         return "/member/update";
     }
@@ -56,7 +60,7 @@ public class MemberController {
     }
 
     @GetMapping("/delete/{memberId}")
-    public String  delete(@PathVariable Long memberId) {
+    public String  delete(@PathVariable(name = "memberId")  Long memberId) {
         memberService.delete(memberId);
         return "redirect:/member/list";
     }

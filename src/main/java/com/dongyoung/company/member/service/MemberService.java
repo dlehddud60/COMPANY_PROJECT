@@ -1,9 +1,8 @@
 package com.dongyoung.company.member.service;
 
-import com.dongyoung.company.member.model.FindRequestMemberInsertModel;
-import com.dongyoung.company.member.model.FindRequestMemberUpdateModel;
-import com.dongyoung.company.member.model.FindResponseMemberListModel;
-import com.dongyoung.company.member.model.FindResponseMemberModel;
+import com.dongyoung.company.member.model.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.ui.Model;
 
 import java.util.List;
@@ -18,4 +17,6 @@ public interface MemberService {
     void update(FindRequestMemberUpdateModel findRequestMemberUpdateModel);
 
     void delete(Long memberId);
+
+    Page<FindResponseMemberListModel> findAllByQueryDsl(SearchCondition searchCondition, Pageable pageable);
 }
