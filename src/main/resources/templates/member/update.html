@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th ="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>게시물작성</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <link rel="stylesheet" th:href="@{/css/member/update.css}">
+    <script th:src="@{/JS/member/update.js}"></script>
+
+</head>
+<body>
+<th:block th:replace="~{/include/header.html :: headerFragment}"></th:block>
+<form action="/member/update" method="post" id="frm">
+    <input type="hidden" name="memberId" th:value="${info.memberId()}">
+    <div class="wrap">
+        <div class="boardArea">
+            <div class="viewArea">
+                <table>
+                    <tbody>
+                    <tr>
+                        <th>이름</th>
+                        <td><input type="text" name="name" th:value="${info.name()}"></td>
+                    </tr>
+                    <tr>
+                        <th>이름</th>
+                        <td><input type="text" name="address" th:value="${info.address()}"></td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="buttonArea">
+            <div class="listBtn Btn"><a th:href="@{/member/list}">목록</a></div>
+            <div class="updateBtn Btn">작성</div>
+        </div>
+    </div>
+</form>
+<th:block th:replace="/include/header.html :: footerFragment"></th:block>
+</body>
+</html>
