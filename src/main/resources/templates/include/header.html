@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th ="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+  <body>
+  <th:block th:fragment="headerFragment">
+    <header>
+      <link rel="stylesheet" th:href="@{/css/include/header.css}">
+      <p class="hTitle">DongYoungJPA</p>
+      <div class="loginArea">
+        <p class="login"><a href="#">로그인</a></p>
+    <!--                <img class="progileImg" src="/img/user/images.jpg" alt="">-->
+    <!--                <p class="progileText">이동영님</p>-->
+      </div>
+
+
+    </header>
+    <nav>
+      <div>
+        <p class="menu">메뉴</p>
+        <ul class="sub">
+          <li><a href="#">메뉴</a></li>
+          <li><a href="#">메뉴</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="menu">커뮤니티</p>
+        <ul class="sub">
+          <li><a href="#">공지사항</a></li>
+          <li><a href="#">자유게시판</a></li>
+          <li><a href="#">자유게시판</a></li>
+          <li><a href="#">자유게시판</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="menu">메뉴1</p>
+        <ul class="sub">
+          <li><a href="#">메뉴2</a></li>
+          <li><a href="#">메뉴2</a></li>
+          <li><a href="#">메뉴2</a></li>
+          <li><a href="#">메뉴2</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="menu">마이페이지</p>
+        <ul class="sub">
+          <li><a href="#">메뉴2</a></li>
+          <li><a href="#">메뉴2</a></li>
+          <li><a href="#">메뉴2</a></li>
+          <li><a href="#">메뉴2</a></li>
+        </ul>
+      </div>
+    </nav>
+  </th:block>
+
+    <th:block th:fragment="footerFragment">
+      <footer>
+        <nav>
+          <a href='https://velog.io/@dlehddud60/posts' target='_blank'>Blog</a> |
+          <a href='https://github.com/dlehddud60' target='_blank'>Github</a>
+        </nav>
+        <p>
+          <span>저자 : 이동영</span><br/>
+          <span>이메일 : dlehddud60@naver.com</span><br/>
+          <span>Copyright 2024. cocoder. All Rights Reserved.</span>
+        </p>
+      </footer>
+    </th:block>
+  </body>
+</html>
