@@ -1,15 +1,15 @@
 package com.dongyoung.company.member.service.impl;
 
 import com.dongyoung.company.member.entity.Member;
-import com.dongyoung.company.member.model.FindRequestMemberInsertModel;
-import com.dongyoung.company.member.model.FindRequestMemberUpdateModel;
-import com.dongyoung.company.member.model.FindResponseMemberListModel;
-import com.dongyoung.company.member.model.FindResponseMemberModel;
+import com.dongyoung.company.member.model.*;
+import com.dongyoung.company.member.repository.MemberQueryRepository;
 import com.dongyoung.company.member.repository.MemberRepository;
 import com.dongyoung.company.member.service.MemberService;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
@@ -22,6 +22,7 @@ import java.util.List;
 public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
+    private final MemberQueryRepository memberQueryRepository;
     private final EntityManager em;
 
     @Override
@@ -42,6 +43,11 @@ public class MemberServiceImpl implements MemberService {
             listDTO.add(new FindResponseMemberListModel(member.getMemberId(),member.getName(),member.getAddress()));
         }
         return listDTO;
+    }
+
+    @Override
+    public Page<FindResponseMemberListModel> findAllByQueryDsl(SearchCondition searchCondition, Pageable pageable) {
+        return memberQueryRepository.findAllByQueryDsl(searchCondition,pageable);
     }
 
     @Override
