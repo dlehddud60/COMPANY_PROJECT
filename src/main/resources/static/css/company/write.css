@@ -1,0 +1,127 @@
+@font-face {
+    font-family: 'SUITE-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'KBO-Dia-Gothic_bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/KBO-Dia-Gothic_bold.woff') format('woff');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'WavvePADO-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2404@1.0/WavvePADO-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+*{
+    text-decoration: none;
+    list-style: none;
+}
+a {
+    color: white;
+}
+.wrap {
+    /*background: #484e6e;*/
+    height: 100%;
+    margin-top: 100px;
+}
+
+
+
+.boardArea {
+    height: 50vh;
+    width: 70%;
+    margin: auto auto 1%;
+    display: flex;
+    justify-content:center;
+    align-items : center;
+
+}
+.viewArea {
+    padding-bottom: 3%;
+    padding-top: 3%;
+    height: 83%;
+    width: 90%;
+    display: flex;
+    justify-content:center;
+    align-items : center;
+}
+
+table {
+    font-family: SUITE-Regular;
+    width: 80%;
+}
+
+
+table tr th {
+    background: #ffc5ed;
+    height: 6vh;
+    width: 10%;
+}
+table tbody tr td {
+    background: #ffc5ed;
+    height: 4vh;
+    text-indent: 15px;
+}
+
+
+.detail {
+    height: 30vh;
+}
+input[name='boardTitle'] {
+    border-radius: 5px;
+    height: 3vh; width: 42vw;
+    font-family: SUITE-Regular, serif;
+    font-size: 1.2rem;
+}
+
+textarea[name='boardText'] {
+    margin: 2% auto;
+    height: 30vh; width: 42vw;
+    font-family: SUITE-Regular, serif;
+    border-radius: 8px;
+    font-size: 1.2rem;
+}
+
+.buttonArea {
+    margin: auto auto 5%;
+    width: 50%;height: 5vh;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+
+}
+.Btn {
+    border-radius: 7px;
+    text-align: center;
+    line-height: 4vh;
+    width: 4vw; height: 4vh;
+    color: white;
+    font-family: SUITE-Regular;
+    cursor: pointer;
+}
+.listBtn {
+    background: #2b48dc;
+}
+.listBtn:hover{
+    background: #516eff;
+}
+.updateBtn {
+    background: #56a654;
+}
+.updateBtn:hover {
+    background: #95de94;
+}
+
+.deleteBtn {
+    background: #ff6b6b;
+}
+.deleteBtn:hover {
+    background: #ffacac;
+}
