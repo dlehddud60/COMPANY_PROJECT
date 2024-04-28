@@ -1,4 +1,4 @@
-package com.dongyoung.company.entity;
+package com.dongyoung.company.company.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
