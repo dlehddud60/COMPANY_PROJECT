@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="ko"
-      xmlns:th ="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>게시물작성</title>
+    <title>회사 작성</title>
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script th:src="@{/JS/member/write.js}"></script>
-    <link rel="stylesheet" th:href="@{/css/member/write.css}">
+    <script th:src="@{/JS/company/write.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/company/write.css}">
 
 </head>
 <body>
 <th:block th:replace="~{/include/header.html :: headerFragment}"></th:block>
-<form action="/member/save" method="post" id="frm">
+<form action="/company/save" method="post" id="frm">
     <div class="wrap">
         <div class="boardArea">
             <div class="viewArea">
@@ -31,7 +31,7 @@
             </div>
         </div>
         <div class="buttonArea">
-            <div class="listBtn Btn"><a th:href="@{/member/list}" style="color: white;">목록</a></div>
+            <div class="listBtn Btn"><a th:href="@{/company/list}" style="color: white;">목록</a></div>
             <div class="updateBtn Btn">작성</div>
         </div>
     </div>

@@ -1,4 +1,4 @@
-package com.dongyoung.company.model;
+package com.dongyoung.company.company.model;
 
 import jakarta.persistence.Column;
 
