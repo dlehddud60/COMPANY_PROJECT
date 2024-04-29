@@ -1,5 +1,6 @@
 package com.dongyoung.company.company.service;
 
+import com.dongyoung.company.company.model.FindRequestCompanyUpdateModel;
 import com.dongyoung.company.company.model.FindResponseCompanyListModel;
 import com.dongyoung.company.company.model.FindResponseCompanyModel;
 import com.dongyoung.company.member.model.FindRequestMemberInsertModel;
@@ -12,4 +13,6 @@ public interface CompanyService {
     List<FindResponseCompanyListModel> findAll();
 
     FindResponseCompanyModel findByCompanyId(Long companyId);
+
+    void update(FindRequestCompanyUpdateModel updateModel);
 }

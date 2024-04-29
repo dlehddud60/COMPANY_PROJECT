@@ -1,6 +1,7 @@
 package com.dongyoung.company.company.service.impl;
 
 import com.dongyoung.company.company.entity.Company;
+import com.dongyoung.company.company.model.FindRequestCompanyUpdateModel;
 import com.dongyoung.company.company.model.FindResponseCompanyListModel;
 import com.dongyoung.company.company.model.FindResponseCompanyModel;
 import com.dongyoung.company.company.repository.CompanyRepository;
@@ -51,5 +52,13 @@ public class CompanyServiceImpl implements CompanyService {
                 company.getName(),
                 company.getAddress());
         return companyModel;
+    }
+
+    @Override
+    public void update(FindRequestCompanyUpdateModel updateModel) {
+        Company company = em.find(Company.class, updateModel.companyId());
+        company.setName(updateModel.name());
+        company.setAddress(updateModel.address());
+        em.flush();
     }
 }
