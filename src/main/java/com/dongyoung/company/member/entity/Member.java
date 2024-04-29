@@ -1,5 +1,7 @@
 package com.dongyoung.company.member.entity;
 
+import com.dongyoung.company.company.entity.Company;
+import com.dongyoung.company.info.entity.Info;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,4 +24,12 @@ public class Member {
 
     @Column(name = "ADDRESS")
     private String address;
+
+    @OneToOne(mappedBy = "member",fetch = FetchType.LAZY)
+    private Info info;
+
+    @JoinColumn(name = "COMPANY_ID")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Company company;
+
 }

@@ -1,5 +1,6 @@
 package com.dongyoung.company.info.entity;
 
+import com.dongyoung.company.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,4 +23,8 @@ public class Info {
 
     @Column(name = "SALARY")
     private String salary;
+
+    @JoinColumn(name = "MEMBER_ID")
+    @OneToOne(fetch = FetchType.LAZY)
+    private Member member;
 }
