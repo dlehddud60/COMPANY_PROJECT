@@ -49,4 +49,10 @@ public class InfoController {
         infoService.update(updateModel);
         return "redirect:/info/find/" + updateModel.infoId();
     }
+
+    @GetMapping("/delete/{infoId}")
+    public String delete(@PathVariable Long infoId) {
+        infoService.delete(infoId);
+        return "redirect:/info/list";
+    }
 }
