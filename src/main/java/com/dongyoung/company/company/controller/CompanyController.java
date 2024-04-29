@@ -26,7 +26,7 @@ public class CompanyController {
     @PostMapping("/save")
     public String save(@ModelAttribute FindRequestMemberInsertModel insertModel) {
         companyService.save(insertModel);
-        return "redirect:/list";
+        return "redirect:/company/list";
     }
 
     @GetMapping("/list")

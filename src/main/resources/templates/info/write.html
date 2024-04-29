@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>사원 작성</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script th:src="@{/JS/info/write.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/info/write.css}">
+</head>
+<body>
+<th:block th:replace="~{/include/header.html :: headerFragment}"></th:block>
+<form action="/info/save" method="post" id="frm">
+    <div class="wrap">
+        <div class="boardArea">
+            <div class="viewArea">
+                <table>
+                    <tbody>
+                    <tr>
+                        <th>직업</th>
+                        <td><input type="text" name="career"></td>
+                    </tr>
+                    <tr>
+                        <th>연봉</th>
+                        <td><input type="text" name="salary"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="buttonArea">
+            <div class="listBtn Btn"><a th:href="@{/info/list}" style="color: white;">목록</a></div>
+            <div class="updateBtn Btn">작성</div>
+        </div>
+    </div>
+</form>
+<th:block th:replace="/include/header.html :: footerFragment"></th:block>
+</body>
+</html>
