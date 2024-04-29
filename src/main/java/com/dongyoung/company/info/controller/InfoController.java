@@ -2,8 +2,11 @@ package com.dongyoung.company.info.controller;
 
 import com.dongyoung.company.info.model.FindRequestInfoInsertModel;
 import com.dongyoung.company.info.model.FindRequestInfoUpdateModel;
+import com.dongyoung.company.info.model.SearchCondition;
 import com.dongyoung.company.info.service.InfoService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -27,20 +30,21 @@ public class InfoController {
     }
 
     @GetMapping("/list")
-    public String list(Model model) {
-        model.addAttribute("list",infoService.findAll());
+    public String list(Model model, @ModelAttribute SearchCondition searchCondition, @PageableDefault(size = 10, page = 0) Pageable pageable) {
+        model.addAttribute("list", infoService.findAllByQueryDsl(searchCondition, pageable));
+        model.addAttribute("maxPage", 10);
         return "/info/list";
     }
 
     @GetMapping("/find/{infoId}")
     public String find(@PathVariable Long infoId, Model model) {
-        model.addAttribute("info",infoService.findbyInfoId(infoId));
+        model.addAttribute("info", infoService.findbyInfoId(infoId));
         return "info/view";
     }
 
     @GetMapping("/update/{infoId}")
     public String update(@PathVariable Long infoId, Model model) {
-        model.addAttribute("info",infoService.findbyInfoId(infoId));
+        model.addAttribute("info", infoService.findbyInfoId(infoId));
         return "/info/update";
     }
 
