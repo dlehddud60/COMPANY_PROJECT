@@ -1,7 +1,6 @@
 package com.dongyoung.company.member.repository.impl;
 
 import com.dongyoung.company.member.entity.Member;
-import com.dongyoung.company.member.entity.QMember;
 import com.dongyoung.company.member.model.FindResponseMemberListModel;
 import com.dongyoung.company.member.model.SearchCondition;
 import com.dongyoung.company.member.repository.MemberQueryRepository;
@@ -39,11 +38,12 @@ public class MemberQueryRepositoryImpl implements MemberQueryRepository {
                     member1.getMemberId(),
                     member1.getName(),
                     member1.getAddress()
-                    ));
+            ));
         }
         JPAQuery<Long> count = queryFactory.select(Wildcard.count).from(member);
-        return PageableExecutionUtils.getPage(listDTO,pageable,count::fetchOne);
+        return PageableExecutionUtils.getPage(listDTO, pageable, count::fetchOne);
     }
+
     private BooleanExpression search(String searchVal) {
         return searchVal != null ? member.name.contains(searchVal) : null;
     }
