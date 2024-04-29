@@ -1,0 +1,175 @@
+@font-face {
+    font-family: 'SUITE-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'KBO-Dia-Gothic_bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/KBO-Dia-Gothic_bold.woff') format('woff');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'WavvePADO-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2404@1.0/WavvePADO-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+*{
+    text-decoration: none;
+    list-style: none;
+}
+a {
+    color: white;
+    font-family: SUITE-Regular;
+}
+.wrap {
+    /*background: #484e6e;*/
+    height: 100%;
+    margin-top: 100px;
+}
+
+.searchArea {
+    margin: auto;
+    width: 70%;
+    height: 30vh;
+    display: flex;
+    justify-content:center;
+    align-items : center;
+}
+
+.searchArea .searchAreaChild{
+    border-radius: 20px;
+    width: 90%; height: 80%;
+    background: #eeeeee;
+    display: flex;
+    justify-content:center;
+    align-items : center;
+}
+input[name='searchValue'] {
+    font-family: SUITE-Regular;
+    font-size: 1.5vw;
+    border-radius: 5px;
+    height: 15%; width: 50%;
+}
+.searchArea .searchAreaChild button{
+    border: 0px solid black;
+    border-radius: 5px;
+    margin-left: 20px;
+    font-size: 1.1vw;
+    font-family: SUITE-Regular;
+    width: 7%; height: 17%;
+    background: #717cfa;
+    color: white;
+    cursor: pointer;
+}
+.searchArea .searchAreaChild button:hover{
+    background: #6a6ea8;
+
+}
+
+
+.boardArea {
+    height: 30%;
+    width: 70%;
+    margin: auto;
+    display: flex;
+    justify-content:center;
+    align-items : center;
+}
+.listArea {
+    padding-bottom: 3%;
+    padding-top: 3%;
+    height: 80%;
+    width: 90%;
+    display: flex;
+    justify-content:center;
+    align-items : center;
+}
+
+table {
+    font-family: SUITE-Regular;
+    text-align: center;
+}
+table thead tr th {
+    background: #ffc5ed;
+    height: 6vh;
+}
+table tbody tr td {
+    background: #ffc5ed;
+    height: 4vh;
+}
+
+table tbody tr td:hover {
+    background: #ff9cdc;
+}
+
+
+.num{
+    width: 5vw;
+}
+.title {
+    width: 27vw;
+
+}
+.writer {
+    width: 14.5vw;
+}
+.inputDt {
+    width: 14.5vw;
+}
+.pageArea {
+    width: 100%; height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+
+.pageArea .pageNumWrap .pageNum {
+    background: #676767;
+    display: inline-block;
+    width: 50px; height: 40px;
+    text-align: center;
+    line-height: 40px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-family: SUITE-Regular;
+    color: white;
+}
+.pageArea .pageNumWrap .pageNum:hover {
+    background: #2b48dc;
+    transition: all 0.5s;
+
+}
+
+
+.buttonArea {
+    margin: auto auto 5%;
+    width: 62%;height: 5vh;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+
+}
+.Btn {
+    border-radius: 7px;
+    text-align: center;
+    line-height: 4vh;
+    width: 4vw; height: 4vh;
+    color: white;
+    font-family: SUITE-Regular;
+    cursor: pointer;
+}
+.updateBtn {
+    background: #56a654;
+}
+.updateBtn:hover {
+    background: #95de94;
+}
