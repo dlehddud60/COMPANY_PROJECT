@@ -1,6 +1,7 @@
 package com.dongyoung.company.info.service;
 
 import com.dongyoung.company.info.model.FindRequestInfoInsertModel;
+import com.dongyoung.company.info.model.FindRequestInfoUpdateModel;
 import com.dongyoung.company.info.model.FindResponseInfoListModel;
 import com.dongyoung.company.info.model.FindResponseInfoModel;
 
@@ -12,4 +13,6 @@ public interface InfoService {
     List<FindResponseInfoListModel> findAll();
 
     FindResponseInfoModel findbyInfoId(Long infoId);
+
+    void update(FindRequestInfoUpdateModel updateModel);
 }

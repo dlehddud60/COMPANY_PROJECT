@@ -2,6 +2,7 @@ package com.dongyoung.company.info.service.impl;
 
 import com.dongyoung.company.info.entity.Info;
 import com.dongyoung.company.info.model.FindRequestInfoInsertModel;
+import com.dongyoung.company.info.model.FindRequestInfoUpdateModel;
 import com.dongyoung.company.info.model.FindResponseInfoListModel;
 import com.dongyoung.company.info.model.FindResponseInfoModel;
 import com.dongyoung.company.info.repository.InfoRepository;
@@ -52,5 +53,13 @@ public class InfoServiceImpl implements InfoService {
                 info.getCareer(),
                 info.getSalary());
         return findbyInfoId;
+    }
+
+    @Override
+    public void update(FindRequestInfoUpdateModel updateModel) {
+        Info info = em.find(Info.class, updateModel.infoId());
+        info.setCareer(updateModel.career());
+        info.setSalary(updateModel.salary());
+        em.flush();
     }
 }

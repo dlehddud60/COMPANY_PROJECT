@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th ="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>사원 정보 수정</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <link rel="stylesheet" th:href="@{/css/info/update.css}">
+    <script th:src="@{/JS/info/update.js}"></script>
+
+</head>
+<body>
+<th:block th:replace="~{/include/header.html :: headerFragment}"></th:block>
+<form action="/info/update" method="post" id="frm">
+    <input type="hidden" name="infoId" th:value="${info.infoId()}">
+    <div class="wrap">
+        <div class="boardArea">
+            <div class="viewArea">
+                <table>
+                    <tbody>
+                    <tr>
+                        <th>직업</th>
+                        <td><input type="text" name="career" th:value="${info.career()}"></td>
+                    </tr>
+                    <tr>
+                        <th>연봉</th>
+                        <td><input type="text" name="salary" th:value="${info.salary()}"></td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="buttonArea">
+            <div class="listBtn Btn"><a th:href="@{/info/list}">목록</a></div>
+            <div class="updateBtn Btn">작성</div>
+        </div>
+    </div>
+</form>
+<th:block th:replace="/include/header.html :: footerFragment"></th:block>
+</body>
+</html>

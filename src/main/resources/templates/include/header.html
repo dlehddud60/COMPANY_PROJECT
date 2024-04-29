@@ -9,7 +9,7 @@
   <th:block th:fragment="headerFragment">
     <header>
       <link rel="stylesheet" th:href="@{/css/include/header.css}">
-      <p class="hTitle">DongYoungJPA</p>
+      <p class="hTitle">회사 관리</p>
       <div class="loginArea">
         <p class="login"><a href="#">로그인</a></p>
     <!--                <img class="progileImg" src="/img/user/images.jpg" alt="">-->
@@ -22,8 +22,9 @@
       <div>
         <p class="menu">메뉴</p>
         <ul class="sub">
-          <li><a href="#">메뉴</a></li>
-          <li><a href="#">메뉴</a></li>
+          <li><a href="/member/list">사원</a></li>
+          <li><a href="/company/list">회사정보</a></li>
+          <li><a href="/info/list">사원정보</a></li>
         </ul>
       </div>
       <div>

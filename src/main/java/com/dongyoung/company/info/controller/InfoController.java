@@ -1,6 +1,7 @@
 package com.dongyoung.company.info.controller;
 
 import com.dongyoung.company.info.model.FindRequestInfoInsertModel;
+import com.dongyoung.company.info.model.FindRequestInfoUpdateModel;
 import com.dongyoung.company.info.service.InfoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -35,5 +36,17 @@ public class InfoController {
     public String find(@PathVariable Long infoId, Model model) {
         model.addAttribute("info",infoService.findbyInfoId(infoId));
         return "info/view";
+    }
+
+    @GetMapping("/update/{infoId}")
+    public String update(@PathVariable Long infoId, Model model) {
+        model.addAttribute("info",infoService.findbyInfoId(infoId));
+        return "/info/update";
+    }
+
+    @PostMapping("/update")
+    public String update(@ModelAttribute FindRequestInfoUpdateModel updateModel) {
+        infoService.update(updateModel);
+        return "redirect:/info/find/" + updateModel.infoId();
     }
 }
