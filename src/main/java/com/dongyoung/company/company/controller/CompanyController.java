@@ -1,5 +1,6 @@
 package com.dongyoung.company.company.controller;
 
+import com.dongyoung.company.company.model.FindRequestCompanyUpdateModel;
 import com.dongyoung.company.company.service.CompanyService;
 import com.dongyoung.company.member.model.FindRequestMemberInsertModel;
 import lombok.RequiredArgsConstructor;
@@ -20,8 +21,9 @@ public class CompanyController {
     }
 
     @PostMapping("/save")
-    public void save(@ModelAttribute FindRequestMemberInsertModel insertModel) {
+    public String save(@ModelAttribute FindRequestMemberInsertModel insertModel) {
         companyService.save(insertModel);
+        return "redirect:/list";
     }
 
     @GetMapping("/list")
@@ -34,5 +36,17 @@ public class CompanyController {
     public String find(@PathVariable Long companyId,Model model) {
         model.addAttribute("info",companyService.findByCompanyId(companyId));
         return "/company/view";
+    }
+
+    @GetMapping("/update/{companyId}")
+    public String update(Model model,@PathVariable Long companyId) {
+        model.addAttribute("info",companyService.findByCompanyId(companyId));
+        return "/company/update";
+    }
+
+    @PostMapping("/update")
+    public String update(@ModelAttribute FindRequestCompanyUpdateModel updateModel) {
+        companyService.update(updateModel);
+        return "redirect:/company/find/" + updateModel.companyId();
     }
 }
