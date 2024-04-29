@@ -62,4 +62,10 @@ public class InfoServiceImpl implements InfoService {
         info.setSalary(updateModel.salary());
         em.flush();
     }
+
+    @Override
+    public void delete(Long infoId) {
+        Info info = em.find(Info.class, infoId);
+        em.remove(info);
+    }
 }

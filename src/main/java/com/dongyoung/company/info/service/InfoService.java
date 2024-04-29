@@ -15,4 +15,6 @@ public interface InfoService {
     FindResponseInfoModel findbyInfoId(Long infoId);
 
     void update(FindRequestInfoUpdateModel updateModel);
+
+    void delete(Long infoId);
 }
