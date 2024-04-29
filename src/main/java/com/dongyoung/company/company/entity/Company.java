@@ -1,7 +1,11 @@
 package com.dongyoung.company.company.entity;
 
+import com.dongyoung.company.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "COMPANY")
@@ -22,4 +26,7 @@ public class Company {
 
     @Column(name = "ADDRESS")
     private String address;
+
+    @OneToMany(mappedBy = "company")
+    private final List<Member> members = new ArrayList<>();
 }
