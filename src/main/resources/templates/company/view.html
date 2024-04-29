@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th ="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>회사 자세히 보기</title>
+  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+  <link rel="stylesheet" th:href="@{/css/company/view.css}">
+
+</head>
+  <body>
+  <th:block th:replace="~{/include/header.html :: headerFragment}"></th:block>
+    <div class="wrap">
+      <div class="boardArea">
+
+        <div class="viewArea">
+          <table>
+            <tbody>
+              <tr>
+                <th>이름</th>
+                <td th:text="${info.name()}"></td>
+              </tr>
+
+              <tr class="detail">
+                <th>주소</th>
+                <td th:text="${info.address()}"></td>
+              </tr>
+            </tbody>
+          </table>
+
+        </div>
+
+      </div>
+      <div class="buttonArea">
+        <div class="listBtn Btn"><a th:href="@{/company/list}">목록</a></div>
+        <div class="updateBtn Btn"><a th:href="@{/company/update/{companyId}(companyId = ${info.companyId()})}" th:text="수정"></a></div>
+        <div class="deleteBtn Btn"><a th:href="@{/company/delete/{companyId}(companyId = ${info.companyId()})}" th:text="삭제"></a></div>
+      </div>
+    </div>
+  <th:block th:replace="/include/header.html :: footerFragment"></th:block>
+  </body>
+</html>
