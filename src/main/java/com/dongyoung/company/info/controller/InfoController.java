@@ -5,12 +5,14 @@ import com.dongyoung.company.info.model.FindRequestInfoUpdateModel;
 import com.dongyoung.company.info.model.SearchCondition;
 import com.dongyoung.company.info.service.InfoService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+@Log4j2
 @Controller
 @RequestMapping("/info")
 @RequiredArgsConstructor
@@ -19,7 +21,8 @@ public class InfoController {
     private final InfoService infoService;
 
     @GetMapping("/write")
-    public String write() {
+    public String write(Model model) {
+        model.addAttribute("companyList",infoService.findAllByCompany());
         return "/info/write";
     }
 
