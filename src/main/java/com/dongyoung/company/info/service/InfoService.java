@@ -1,5 +1,6 @@
 package com.dongyoung.company.info.service;
 
+import com.dongyoung.company.company.model.FindResponseCompanyListModel;
 import com.dongyoung.company.info.model.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,4 +19,6 @@ public interface InfoService {
     void delete(Long infoId);
 
     Page<FindResponseInfoListModel> findAllByQueryDsl(SearchCondition searchCondition, Pageable pageable);
+
+    List<FindResponseCompanyListModel> findAllByCompany();
 }
