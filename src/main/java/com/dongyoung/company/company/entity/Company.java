@@ -1,5 +1,6 @@
 package com.dongyoung.company.company.entity;
 
+import com.dongyoung.company.common.entity.AddName;
 import com.dongyoung.company.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.*;
@@ -21,11 +22,8 @@ public class Company {
     @Column(name = "COMPANY_ID")
     private Long companyId;
 
-    @Column(name = "NAME")
-    private String name;
-
-    @Column(name = "ADDRESS")
-    private String address;
+    @Embedded
+    private AddName addName;
 
     @OneToMany(mappedBy = "company")
     private final List<Member> members = new ArrayList<>();

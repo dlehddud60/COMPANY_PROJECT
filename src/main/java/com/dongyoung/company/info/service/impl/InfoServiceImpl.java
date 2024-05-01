@@ -1,10 +1,13 @@
 package com.dongyoung.company.info.service.impl;
 
+import com.dongyoung.company.common.entity.AddName;
 import com.dongyoung.company.company.entity.Company;
 import com.dongyoung.company.company.model.FindResponseCompanyListModel;
+import com.dongyoung.company.company.model.mapper.CompanyMapper;
 import com.dongyoung.company.company.repository.CompanyRepository;
 import com.dongyoung.company.info.entity.Info;
 import com.dongyoung.company.info.model.*;
+import com.dongyoung.company.info.model.mapper.InfoMapper;
 import com.dongyoung.company.info.repository.InfoQueryRepository;
 import com.dongyoung.company.info.repository.InfoRepository;
 import com.dongyoung.company.info.service.InfoService;
@@ -20,17 +23,20 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-@Log4j2
+import java.util.stream.Collectors;
+
 @Service
-@Transactional
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class InfoServiceImpl implements InfoService {
     private final InfoRepository infoRepository;
     private final InfoQueryRepository queryRepository;
     private final CompanyRepository companyRepository;
-    private final EntityManager em;
+    private final MemberRepository memberRepository;
+    private final InfoMapper infoMapper;
+    private final CompanyMapper companyMapper;
 
-
+    @Transactional
     @Override
     public void save(FindRequestInfoInsertModel insertModel) {
 
@@ -39,36 +45,42 @@ public class InfoServiceImpl implements InfoService {
            case "Y" -> {
                Company companyById = companyRepository.findByCompanyId(insertModel.companyId());
                Member member = Member.builder()
-                       .name(insertModel.memberName())
-                       .address(insertModel.memberAddress())
+                       .addName(AddName.builder()
+                               .name(insertModel.memberName())
+                               .address(insertModel.memberAddress())
+                               .build())
                        .company(companyById)
                        .build();
-               em.persist(member);
+               memberRepository.save(member);
                Info info = Info.builder()
                        .career(insertModel.career())
                        .salary(insertModel.salary())
                        .member(member)
                        .build();
-               em.persist(info);
+               infoRepository.save(info);
            }
            case "N" -> {
                Company company = Company.builder()
-                       .name(insertModel.companyName())
-                       .address(insertModel.companyAddress())
+                       .addName(AddName.builder()
+                               .name(insertModel.companyName())
+                               .address(insertModel.companyAddress())
+                               .build())
                        .build();
-               em.persist(company);
+               companyRepository.save(company);
                Member member = Member.builder()
-                       .name(insertModel.memberName())
-                       .address(insertModel.memberAddress())
+                       .addName(AddName.builder()
+                               .name(insertModel.memberName())
+                               .address(insertModel.memberAddress())
+                               .build())
                        .company(company)
                        .build();
-               em.persist(member);
+               memberRepository.save(member);
                Info info = Info.builder()
                        .career(insertModel.career())
                        .salary(insertModel.salary())
                        .member(member)
                        .build();
-               em.persist(info);
+               infoRepository.save(info);
            }
         }
     }
@@ -80,45 +92,30 @@ public class InfoServiceImpl implements InfoService {
 
     @Override
     public List<FindResponseInfoListModel> findAll() {
-        List<Info> list = infoRepository.findAll();
-        List<FindResponseInfoListModel> findAll = new ArrayList<>();
-        for (Info info : list) {
-            findAll.add(new FindResponseInfoListModel(info.getInfoId(), info.getCareer(), info.getSalary()));
-        }
-        return findAll;
+        return infoRepository.findAll().stream().map(infoMapper::toInfoListModel).collect(Collectors.toList());
     }
 
     @Override
     public FindResponseInfoModel findbyInfoId(Long infoId) {
-        Info info = em.find(Info.class, infoId);
-        FindResponseInfoModel findbyInfoId = new FindResponseInfoModel(info.getInfoId(), info.getCareer(), info.getSalary());
-        return findbyInfoId;
+        return infoMapper.toInfoModel(infoRepository.findByInfoId(infoId));
     }
 
+    @Transactional
     @Override
     public void update(FindRequestInfoUpdateModel updateModel) {
-        Info info = em.find(Info.class, updateModel.infoId());
+        Info info = infoRepository.findByInfoId(updateModel.infoId());
         info.setCareer(updateModel.career());
         info.setSalary(updateModel.salary());
-        em.flush();
     }
 
+    @Transactional
     @Override
     public void delete(Long infoId) {
-        Info info = em.find(Info.class, infoId);
-        em.remove(info);
+        infoRepository.deleteById(infoId);
     }
 
     @Override
     public List<FindResponseCompanyListModel> findAllByCompany() {
-        List<Company> all = companyRepository.findAll();
-        List<FindResponseCompanyListModel> list = new ArrayList<>();
-        for (Company company : all) {
-            list.add(new FindResponseCompanyListModel(
-                    company.getCompanyId(),
-                    company.getName(),
-                    company.getAddress()));
-        }
-        return list;
+        return companyRepository.findAll().stream().map(companyMapper::toCompanyListModel).collect(Collectors.toList());
     }
 }

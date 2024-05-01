@@ -1,48 +1,48 @@
 package com.dongyoung.company.member.service.impl;
 
+import com.dongyoung.company.common.entity.AddName;
 import com.dongyoung.company.member.entity.Member;
 import com.dongyoung.company.member.model.*;
+import com.dongyoung.company.member.model.mapper.MemberMapper;
 import com.dongyoung.company.member.repository.MemberQueryRepository;
 import com.dongyoung.company.member.repository.MemberRepository;
 import com.dongyoung.company.member.service.MemberService;
 import jakarta.persistence.EntityManager;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
-@Transactional
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
     private final MemberQueryRepository memberQueryRepository;
-    private final EntityManager em;
+    private final MemberMapper memberMapper;
 
+    @Transactional
     @Override
     public void save(FindRequestMemberInsertModel insertModel) {
         Member member = Member.builder()
-                .name(insertModel.name())
-                .address(insertModel.address())
+                .addName(AddName.builder()
+                        .name(insertModel.name())
+                        .address(insertModel.address())
+                        .build())
                 .build();
-        em.persist(member);
-        em.flush();
+        memberRepository.save(member);
     }
 
     @Override
     public List<FindResponseMemberListModel> list(Model model) {
-        List<Member> list = memberRepository.findAll();
-        List<FindResponseMemberListModel> listDTO = new ArrayList<>();
-        for (Member member : list) {
-            listDTO.add(new FindResponseMemberListModel(member.getMemberId(),member.getName(),member.getAddress()));
-        }
-        return listDTO;
+        return memberRepository.findAll().stream().map(memberMapper::toMemberListModel).collect(Collectors.toList());
     }
 
     @Override
@@ -52,25 +52,20 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public FindResponseMemberModel findByMemberId(Long memberId) {
-        Member member = em.find(Member.class, memberId);
-        FindResponseMemberModel memberModel = new FindResponseMemberModel(
-                member.getMemberId(),
-                member.getName(),
-                member.getAddress());
-        return memberModel;
+        return memberMapper.toMemberModel(memberRepository.findByMemberId(memberId));
     }
 
+    @Transactional
     @Override
     public void update(FindRequestMemberUpdateModel findRequestMemberUpdateModel) {
-        Member member = em.find(Member.class, findRequestMemberUpdateModel.memberId());
-        member.setName(findRequestMemberUpdateModel.name());
-        member.setAddress(findRequestMemberUpdateModel.address());
-        em.flush();
+        Member member = memberRepository.findByMemberId(findRequestMemberUpdateModel.memberId());
+        member.getAddName().setName(findRequestMemberUpdateModel.name());
+        member.getAddName().setAddress(findRequestMemberUpdateModel.address());
     }
 
+    @Transactional
     @Override
     public void delete(Long memberId) {
-        Member member = em.find(Member.class, memberId);
-        em.remove(member);
+        memberRepository.deleteById(memberId);
     }
 }

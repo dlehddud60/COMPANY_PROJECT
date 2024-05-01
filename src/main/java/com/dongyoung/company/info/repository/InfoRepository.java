@@ -4,4 +4,5 @@ import com.dongyoung.company.info.entity.Info;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface InfoRepository extends JpaRepository<Info,Long> {
+    Info findByInfoId(Long infoId);
 }
