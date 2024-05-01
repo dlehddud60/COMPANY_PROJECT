@@ -3,6 +3,7 @@ package com.dongyoung.company.company.repository.impl;
 import com.dongyoung.company.company.entity.Company;
 import com.dongyoung.company.company.model.FindResponseCompanyListModel;
 import com.dongyoung.company.company.model.SearchCondition;
+import com.dongyoung.company.company.model.mapper.CompanyMapper;
 import com.dongyoung.company.company.repository.CompanyQueryRepository;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Wildcard;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.dongyoung.company.company.entity.QCompany.company;
 
@@ -23,6 +25,7 @@ import static com.dongyoung.company.company.entity.QCompany.company;
 @RequiredArgsConstructor
 public class CompanyQueryRepositoryImpl implements CompanyQueryRepository {
     private final JPAQueryFactory queryFactory;
+    private final CompanyMapper companyMapper;
 
     @Override
     public Page<FindResponseCompanyListModel> findAllByQueryDsl(SearchCondition search, Pageable pageable) {
@@ -32,18 +35,12 @@ public class CompanyQueryRepositoryImpl implements CompanyQueryRepository {
                 .where(search(search.name()))
                 .orderBy(company.companyId.desc())
                 .fetch();
-        List<FindResponseCompanyListModel> listModels = new ArrayList<>();
-        for (Company company1 : list) {
-            listModels.add(new FindResponseCompanyListModel(
-                    company1.getCompanyId(),
-                    company1.getName(),
-                    company1.getAddress()));
-        }
+
         JPAQuery<Long> count = queryFactory.select(Wildcard.count).from(company);
-        return PageableExecutionUtils.getPage(listModels, pageable, count::fetchOne);
+        return PageableExecutionUtils.getPage(list.stream().map(companyMapper::toCompanyListModel).collect(Collectors.toList()), pageable, count::fetchOne);
     }
 
     private BooleanExpression search(String searchValue) {
-        return searchValue != null ? company.name.contains(searchValue) : null;
+        return searchValue != null ? company.addName.name.contains(searchValue) : null;
     }
 }

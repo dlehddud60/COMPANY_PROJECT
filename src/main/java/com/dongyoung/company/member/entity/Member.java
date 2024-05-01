@@ -1,5 +1,6 @@
 package com.dongyoung.company.member.entity;
 
+import com.dongyoung.company.common.entity.AddName;
 import com.dongyoung.company.company.entity.Company;
 import com.dongyoung.company.info.entity.Info;
 import jakarta.persistence.*;
@@ -19,11 +20,8 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberId;
 
-    @Column(name = "NAME")
-    private String name;
-
-    @Column(name = "ADDRESS")
-    private String address;
+    @Embedded
+    private AddName addName;
 
     @OneToOne(mappedBy = "member",fetch = FetchType.LAZY)
     private Info info;

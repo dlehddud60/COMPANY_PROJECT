@@ -1,8 +1,10 @@
 package com.dongyoung.company.member.repository.impl;
 
 import com.dongyoung.company.member.entity.Member;
+import com.dongyoung.company.member.entity.QMember;
 import com.dongyoung.company.member.model.FindResponseMemberListModel;
 import com.dongyoung.company.member.model.SearchCondition;
+import com.dongyoung.company.member.model.mapper.MemberMapper;
 import com.dongyoung.company.member.repository.MemberQueryRepository;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Wildcard;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.dongyoung.company.member.entity.QMember.member;
 
@@ -23,6 +26,7 @@ import static com.dongyoung.company.member.entity.QMember.member;
 @RequiredArgsConstructor
 public class MemberQueryRepositoryImpl implements MemberQueryRepository {
     private final JPAQueryFactory queryFactory;
+    private final MemberMapper memberMapper;
 
     @Override
     public Page<FindResponseMemberListModel> findAllByQueryDsl(SearchCondition searchCondition, Pageable pageable) {
@@ -32,19 +36,12 @@ public class MemberQueryRepositoryImpl implements MemberQueryRepository {
                 .where(search(searchCondition.name()))
                 .orderBy(member.memberId.desc())
                 .fetch();
-        List<FindResponseMemberListModel> listDTO = new ArrayList<>();
-        for (Member member1 : list) {
-            listDTO.add(new FindResponseMemberListModel(
-                    member1.getMemberId(),
-                    member1.getName(),
-                    member1.getAddress()
-            ));
-        }
+
         JPAQuery<Long> count = queryFactory.select(Wildcard.count).from(member);
-        return PageableExecutionUtils.getPage(listDTO, pageable, count::fetchOne);
+        return PageableExecutionUtils.getPage(list.stream().map(memberMapper::toMemberListModel).collect(Collectors.toList()), pageable, count::fetchOne);
     }
 
     private BooleanExpression search(String searchVal) {
-        return searchVal != null ? member.name.contains(searchVal) : null;
+        return searchVal != null ? member.addName.name.contains(searchVal) : null;
     }
 }

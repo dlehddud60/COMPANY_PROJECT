@@ -25,13 +25,13 @@ public class MemberController {
     }
 
     @PostMapping("/save")
-    public String save(@ModelAttribute FindRequestMemberInsertModel insertModel) {
+    public String save(FindRequestMemberInsertModel insertModel) {
         memberService.save(insertModel);
         return "redirect:/member/list";
     }
 
     @GetMapping("/list")
-    public String list(Model model, @ModelAttribute SearchCondition searchCondition, @PageableDefault(page = 0, size = 10) Pageable pageable) {
+    public String list(Model model, SearchCondition searchCondition, @PageableDefault(page = 0, size = 10) Pageable pageable) {
         model.addAttribute("list", memberService.findAllByQueryDsl(searchCondition, pageable));
         model.addAttribute("maxPage", 10);
         model.addAttribute("name", searchCondition.name());
@@ -52,7 +52,7 @@ public class MemberController {
     }
 
     @PostMapping("/update")
-    public String update(@ModelAttribute FindRequestMemberUpdateModel findRequestMemberUpdateModel) {
+    public String update(FindRequestMemberUpdateModel findRequestMemberUpdateModel) {
         memberService.update(findRequestMemberUpdateModel);
         return "redirect:/member/find/" + findRequestMemberUpdateModel.memberId();
     }

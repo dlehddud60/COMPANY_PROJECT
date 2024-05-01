@@ -1,10 +1,12 @@
 package com.dongyoung.company.company.service.impl;
 
+import com.dongyoung.company.common.entity.AddName;
 import com.dongyoung.company.company.entity.Company;
 import com.dongyoung.company.company.model.FindRequestCompanyUpdateModel;
 import com.dongyoung.company.company.model.FindResponseCompanyListModel;
 import com.dongyoung.company.company.model.FindResponseCompanyModel;
 import com.dongyoung.company.company.model.SearchCondition;
+import com.dongyoung.company.company.model.mapper.CompanyMapper;
 import com.dongyoung.company.company.repository.CompanyQueryRepository;
 import com.dongyoung.company.company.repository.CompanyRepository;
 import com.dongyoung.company.company.service.CompanyService;
@@ -18,19 +20,26 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
-@Transactional
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class CompanyServiceImpl implements CompanyService {
-    private final EntityManager em;
     private final CompanyRepository companyRepository;
     private final CompanyQueryRepository companyQueryRepository;
+    private final  CompanyMapper companyMapper;
 
+    @Transactional
     @Override
     public void save(FindRequestMemberInsertModel insertModel) {
-        Company company = Company.builder().name(insertModel.name()).address(insertModel.address()).build();
-        em.persist(company);
+        Company company = Company.builder()
+                .addName(AddName.builder()
+                        .name(insertModel.name())
+                        .address(insertModel.address())
+                        .build())
+                .build();
+        companyRepository.save(company);
     }
 
     @Override
@@ -40,32 +49,25 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public List<FindResponseCompanyListModel> findAll() {
-        List<Company> list = companyRepository.findAll();
-        List<FindResponseCompanyListModel> listModels = new ArrayList<>();
-        for (Company company : list) {
-            listModels.add(new FindResponseCompanyListModel(company.getCompanyId(), company.getName(), company.getAddress()));
-        }
-        return listModels;
+        return companyRepository.findAll().stream().map(companyMapper::toCompanyListModel).collect(Collectors.toList());
     }
 
     @Override
     public FindResponseCompanyModel findByCompanyId(Long companyId) {
-        Company company = em.find(Company.class, companyId);
-        FindResponseCompanyModel companyModel = new FindResponseCompanyModel(company.getCompanyId(), company.getName(), company.getAddress());
-        return companyModel;
+        return companyMapper.toCompanyModel(companyRepository.findByCompanyId(companyId));
     }
 
+    @Transactional
     @Override
     public void update(FindRequestCompanyUpdateModel updateModel) {
-        Company company = em.find(Company.class, updateModel.companyId());
-        company.setName(updateModel.name());
-        company.setAddress(updateModel.address());
-        em.flush();
+        Company company = companyRepository.findByCompanyId(updateModel.companyId());
+        company.getAddName().setName(updateModel.name());
+        company.getAddName().setAddress(updateModel.address());
     }
 
+    @Transactional
     @Override
     public void delete(Long companyId) {
-        Company company = em.find(Company.class, companyId);
-        em.remove(company);
+        companyRepository.deleteById(companyId);
     }
 }

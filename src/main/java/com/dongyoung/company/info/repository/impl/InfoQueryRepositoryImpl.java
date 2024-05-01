@@ -3,6 +3,7 @@ package com.dongyoung.company.info.repository.impl;
 import com.dongyoung.company.info.entity.Info;
 import com.dongyoung.company.info.model.FindResponseInfoListModel;
 import com.dongyoung.company.info.model.SearchCondition;
+import com.dongyoung.company.info.model.mapper.InfoMapper;
 import com.dongyoung.company.info.repository.InfoQueryRepository;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Wildcard;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.dongyoung.company.info.entity.QInfo.info;
 
@@ -23,6 +25,7 @@ import static com.dongyoung.company.info.entity.QInfo.info;
 @RequiredArgsConstructor
 public class InfoQueryRepositoryImpl implements InfoQueryRepository {
     private final JPAQueryFactory queryFactory;
+    private final InfoMapper infoMapper;
 
     @Override
     public Page<FindResponseInfoListModel> findAllByQueryDsl(SearchCondition searchCondition, Pageable pageable) {
@@ -32,16 +35,8 @@ public class InfoQueryRepositoryImpl implements InfoQueryRepository {
                 .where(search(searchCondition.career()))
                 .orderBy(info.infoId.desc())
                 .fetch();
-        List<FindResponseInfoListModel> findAllByQueryDsl = new ArrayList<>();
-        for (Info info1 : list) {
-            findAllByQueryDsl.add(new FindResponseInfoListModel(
-                    info1.getInfoId(),
-                    info1.getCareer(),
-                    info1.getSalary()));
-        }
-
         JPAQuery<Long> count = queryFactory.select(Wildcard.count).from(info);
-        return PageableExecutionUtils.getPage(findAllByQueryDsl, pageable, count::fetchOne);
+        return PageableExecutionUtils.getPage(list.stream().map(infoMapper::toInfoListModel).collect(Collectors.toList()), pageable, count::fetchOne);
     }
 
     private BooleanExpression search(String searchValue) {

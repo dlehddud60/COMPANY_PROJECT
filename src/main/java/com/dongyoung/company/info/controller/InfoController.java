@@ -27,13 +27,13 @@ public class InfoController {
     }
 
     @PostMapping("/save")
-    public String save(@ModelAttribute FindRequestInfoInsertModel insertModel) {
+    public String save(FindRequestInfoInsertModel insertModel) {
         infoService.save(insertModel);
         return "redirect:/info/list";
     }
 
     @GetMapping("/list")
-    public String list(Model model, @ModelAttribute SearchCondition searchCondition, @PageableDefault(size = 10, page = 0) Pageable pageable) {
+    public String list(Model model, SearchCondition searchCondition, @PageableDefault(size = 10, page = 0) Pageable pageable) {
         model.addAttribute("list", infoService.findAllByQueryDsl(searchCondition, pageable));
         model.addAttribute("maxPage", 10);
         return "/info/list";
@@ -52,7 +52,7 @@ public class InfoController {
     }
 
     @PostMapping("/update")
-    public String update(@ModelAttribute FindRequestInfoUpdateModel updateModel) {
+    public String update(FindRequestInfoUpdateModel updateModel) {
         infoService.update(updateModel);
         return "redirect:/info/find/" + updateModel.infoId();
     }
