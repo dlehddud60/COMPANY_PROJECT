@@ -5,7 +5,6 @@ import com.dongyoung.company.info.model.FindResponseInfoListModel;
 import com.dongyoung.company.info.model.SearchCondition;
 import com.dongyoung.company.info.model.mapper.InfoMapper;
 import com.dongyoung.company.info.repository.InfoQueryRepository;
-import com.dongyoung.company.member.entity.QMember;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -17,7 +16,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,14 +36,21 @@ public class InfoQueryRepositoryImpl implements InfoQueryRepository {
                 .limit(pageable.getPageSize())
                 .leftJoin(info.member,member)
                 .fetchJoin()
-                .where(search(searchCondition.career()))
+                .where(
+                        searchCareer(searchCondition.career()),
+                        searchMemberName(searchCondition.memberName())
+                      )
                 .orderBy(info.infoId.desc())
                 .fetch();
         JPAQuery<Long> count = queryFactory.select(Wildcard.count).from(info);
         return PageableExecutionUtils.getPage(list.stream().map(infoMapper::toInfoListModel).collect(Collectors.toList()), pageable, count::fetchOne);
     }
 
-    private BooleanExpression search(String searchValue) {
+    private BooleanExpression searchCareer(String searchValue) {
         return searchValue != null ? info.career.contains(searchValue) : null;
+    }
+
+    private BooleanExpression searchMemberName(String searchValue) {
+        return searchValue != null ? info.member.addName.name.contains(searchValue) : null;
     }
 }

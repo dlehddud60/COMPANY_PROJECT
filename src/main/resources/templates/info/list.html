@@ -6,6 +6,8 @@
     <title>회사 리스트</title>
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <link rel="stylesheet" th:href="@{/css/info/list.css}">
+    <script th:src="@{/JS/info/list.js}"></script>
+
 
 </head>
 <body>
@@ -15,7 +17,11 @@
 
         <div class="searchArea">
             <div class="searchAreaChild">
-                <input type="text" name="career" placeholder="이름을 입력해주세요.">
+                <select onchange="selectSearchFunc(this)">
+                    <option value="career">직업</option>
+                    <option value="memberName">사원이름</option>
+                </select>
+                <input type="text" name="career" id="searchInputBox" placeholder="이름을 입력해주세요.">
                 <button type="submit">search</button>
             </div>
         </div>
