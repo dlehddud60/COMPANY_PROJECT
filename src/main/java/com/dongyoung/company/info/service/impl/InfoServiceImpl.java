@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Log4j2
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -87,7 +88,14 @@ public class InfoServiceImpl implements InfoService {
 
     @Override
     public Page<FindResponseInfoListModel> findAllByQueryDsl(SearchCondition searchCondition, Pageable pageable) {
-        return queryRepository.findAllByQueryDsl(searchCondition, pageable);
+
+        Page<FindResponseInfoListModel> allByQueryDsl = queryRepository.findAllByQueryDsl(searchCondition, pageable);
+        for (FindResponseInfoListModel findResponseInfoListModel : allByQueryDsl) {
+            log.info("===========findResponseInfoListModel========={}",findResponseInfoListModel);
+
+        }
+        log.info("===========allByQueryDsl=========={}",allByQueryDsl.toString());
+        return allByQueryDsl;
     }
 
     @Override
