@@ -41,20 +41,20 @@ public class InfoServiceImpl implements InfoService {
 
         String companyResult = insertModel.companyResult();
         switch (companyResult) {
-           case "Y" -> {
-               Company companyById = companyRepository.findByCompanyId(insertModel.companyId());
-               DTOMappingMethod(insertModel, companyById);
-           }
-           case "N" -> {
-               Company company = Company.builder()
-                       .addName(AddName.builder()
-                               .name(insertModel.companyName())
-                               .address(insertModel.companyAddress())
-                               .build())
-                       .build();
-               companyRepository.save(company);
-               DTOMappingMethod(insertModel, company);
-           }
+            case "Y" -> {
+                Company companyById = companyRepository.findByCompanyId(insertModel.companyId());
+                DTOMappingMethod(insertModel, companyById);
+            }
+            case "N" -> {
+                Company company = Company.builder()
+                        .addName(AddName.builder()
+                                .name(insertModel.companyName())
+                                .address(insertModel.companyAddress())
+                                .build())
+                        .build();
+                companyRepository.save(company);
+                DTOMappingMethod(insertModel, company);
+            }
         }
     }
 
@@ -93,9 +93,32 @@ public class InfoServiceImpl implements InfoService {
     @Transactional
     @Override
     public void update(FindRequestInfoUpdateModel updateModel) {
+        String result = updateModel.companyResult();
         Info info = infoRepository.findByInfoId(updateModel.infoId());
-        info.setCareer(updateModel.career());
-        info.setSalary(updateModel.salary());
+        switch (result) {
+            case "Y" -> {
+
+                info.getMember().setCompany(companyRepository.findByCompanyId(updateModel.companyId()));
+                info.getMember().getAddName().setName(updateModel.memberName());
+                info.getMember().getAddName().setAddress(updateModel.memberAddress());
+                info.setCareer(updateModel.career());
+                info.setSalary(updateModel.salary());
+            }
+            case "N" -> {
+                Company company = Company.builder()
+                        .addName(AddName.builder()
+                                .name(updateModel.companyName())
+                                .address(updateModel.companyAddress())
+                                .build())
+                        .build();
+                companyRepository.save(company);
+                info.getMember().setCompany(company);
+                info.getMember().getAddName().setName(updateModel.memberName());
+                info.getMember().getAddName().setAddress(updateModel.memberAddress());
+                info.setCareer(updateModel.career());
+                info.setSalary(updateModel.salary());
+            }
+        }
     }
 
     @Transactional
