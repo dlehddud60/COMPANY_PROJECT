@@ -16,15 +16,31 @@
         <div class="viewArea">
           <table>
             <tbody>
-              <tr>
-                <th>직업</th>
-                <td th:text="${info.career()}"></td>
-              </tr>
+            <tr>
+              <th>사원 이름</th>
+                <td th:text="${info.memberModel().name()}">
+              </td>
+              <th>사원 주소</th>
+                <td th:text="${info.memberModel().address()}">
+              </td>
+            </tr>
 
-              <tr class="detail">
-                <th>연봉</th>
-                <td th:text="${info.salary()}"></td>
+              <tr>
+                <th>사원 직업</th>
+                  <td th:text="${info.career()}">
+                </td>
+                <th>사원 연봉</th>
+                  <td th:text="${info.salary()}">
+                </td>
               </tr>
+            <tr>
+              <th>회사 이름</th>
+                <td th:text="${info.memberModel().companyModel().name()}">
+              </td>
+              <th>회사 주소</th>
+                <td th:text="${info.memberModel().companyModel().address()}">
+              </td>
+            </tr>
             </tbody>
           </table>
 

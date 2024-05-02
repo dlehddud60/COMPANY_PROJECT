@@ -13,7 +13,6 @@ import com.dongyoung.company.info.repository.InfoRepository;
 import com.dongyoung.company.info.service.InfoService;
 import com.dongyoung.company.member.entity.Member;
 import com.dongyoung.company.member.repository.MemberRepository;
-import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
@@ -21,7 +20,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -45,20 +43,7 @@ public class InfoServiceImpl implements InfoService {
         switch (companyResult) {
            case "Y" -> {
                Company companyById = companyRepository.findByCompanyId(insertModel.companyId());
-               Member member = Member.builder()
-                       .addName(AddName.builder()
-                               .name(insertModel.memberName())
-                               .address(insertModel.memberAddress())
-                               .build())
-                       .company(companyById)
-                       .build();
-               memberRepository.save(member);
-               Info info = Info.builder()
-                       .career(insertModel.career())
-                       .salary(insertModel.salary())
-                       .member(member)
-                       .build();
-               infoRepository.save(info);
+               DTOMappingMethod(insertModel, companyById);
            }
            case "N" -> {
                Company company = Company.builder()
@@ -68,34 +53,31 @@ public class InfoServiceImpl implements InfoService {
                                .build())
                        .build();
                companyRepository.save(company);
-               Member member = Member.builder()
-                       .addName(AddName.builder()
-                               .name(insertModel.memberName())
-                               .address(insertModel.memberAddress())
-                               .build())
-                       .company(company)
-                       .build();
-               memberRepository.save(member);
-               Info info = Info.builder()
-                       .career(insertModel.career())
-                       .salary(insertModel.salary())
-                       .member(member)
-                       .build();
-               infoRepository.save(info);
+               DTOMappingMethod(insertModel, company);
            }
         }
     }
 
+    private void DTOMappingMethod(FindRequestInfoInsertModel insertModel, Company company) {
+        Member member = Member.builder()
+                .addName(AddName.builder()
+                        .name(insertModel.memberName())
+                        .address(insertModel.memberAddress())
+                        .build())
+                .company(company)
+                .build();
+        memberRepository.save(member);
+        Info info = Info.builder()
+                .career(insertModel.career())
+                .salary(insertModel.salary())
+                .member(member)
+                .build();
+        infoRepository.save(info);
+    }
+
     @Override
     public Page<FindResponseInfoListModel> findAllByQueryDsl(SearchCondition searchCondition, Pageable pageable) {
-
-        Page<FindResponseInfoListModel> allByQueryDsl = queryRepository.findAllByQueryDsl(searchCondition, pageable);
-        for (FindResponseInfoListModel findResponseInfoListModel : allByQueryDsl) {
-            log.info("===========findResponseInfoListModel========={}",findResponseInfoListModel);
-
-        }
-        log.info("===========allByQueryDsl=========={}",allByQueryDsl.toString());
-        return allByQueryDsl;
+        return queryRepository.findAllByQueryDsl(searchCondition, pageable);
     }
 
     @Override
