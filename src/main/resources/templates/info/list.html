@@ -26,19 +26,27 @@
                     <thead>
                     <tr>
                         <th class="num">번호</th>
-                        <th class="title">이름</th>
-                        <th class="writer">주소</th>
+                        <th class="writer">사원 이름</th>
+                        <th class="writer">사원 주소</th>
+                        <th class="title">직업</th>
+                        <th class="writer">연봉</th>
+                        <th class="writer">소속 회사</th>
+                        <th class="writer">회사 주소</th>
                     </tr>
                     </thead>
                     <tbody>
                     <th:block th:each="list : ${list}">
                         <tr>
                             <td th:text="${list.infoId}"></td>
+                            <td th:text="${list.listModel().name()}"></td>
+                            <td th:text="${list.listModel().address()}"></td>
                             <td>
                                 <a th:href="@{/info/find/{infoId}( infoId = ${list.infoId})}"
                                    th:text="${list.career}"></a>
                             </td>
                             <td th:text="${list.salary}"></td>
+                            <td th:text="${list.listModel().companyAndMemberListModel().name()}"></td>
+                            <td th:text="${list.listModel().companyAndMemberListModel().address()}"></td>
                         </tr>
                     </th:block>
                     </tbody>
