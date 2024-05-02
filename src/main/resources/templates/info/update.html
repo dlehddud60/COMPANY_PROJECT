@@ -19,14 +19,47 @@
                 <table>
                     <tbody>
                     <tr>
+                        <th>사원 이름</th>
+                        <td colspan="3"><input type="text" name="memberName" th:value="${info.memberModel().name()}"></td>
+                    </tr>
+                    <tr>
+                        <th>사원 주소</th>
+                        <td colspan="3"><input type="text" name="memberAddress" th:value="${info.memberModel().address()}"></td>
+                    </tr>
+                    <tr>
+                        <th>회사 선택</th>
+                        <td colspan="3">
+                            기존<input type="radio" name="companyResult" value="Y" checked>
+                            신규<input type="radio" name="companyResult" value="N">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th style="width: 15%;">회사 리스트 등록</th>
+                        <td style="width: 15%;">
+                            <select name="companyId">
+                                <option value="">--선택--</option>
+                                <th:block th:each="list : ${companyList}">
+                                    <option th:value="${list.companyId}" th:text="${list.name}" th:selected="${list.companyId} == ${info.memberModel().companyModel().companyId()}"></option>
+                                </th:block>
+                            </select>
+                        </td>
+                        <th style="width: 17%;">신규 회사 등록</th>
+                        <td>
+                            <span>회사이름</span>
+                            <input type="text" name="companyName">
+                            <span>회사주소</span>
+                            <input type="text" name="companyAddress">
+                        </td>
+                    </tr>
+
+                    <tr>
                         <th>직업</th>
-                        <td><input type="text" name="career" th:value="${info.career()}"></td>
+                        <td colspan="3"><input type="text" name="career" th:value="${info.career()}"></td>
                     </tr>
                     <tr>
                         <th>연봉</th>
-                        <td><input type="text" name="salary" th:value="${info.salary()}"></td>
+                        <td colspan="3"><input type="text" name="salary" th:value="${info.salary()}"></td>
                     </tr>
-
                     </tbody>
                 </table>
             </div>

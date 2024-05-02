@@ -22,7 +22,6 @@ public class InfoController {
 
     @GetMapping("/write")
     public String write(Model model) {
-        model.addAttribute("companyList",infoService.findAllByCompany());
         return "/info/write";
     }
 
@@ -48,6 +47,7 @@ public class InfoController {
     @GetMapping("/update/{infoId}")
     public String update(@PathVariable Long infoId, Model model) {
         model.addAttribute("info", infoService.findbyInfoId(infoId));
+        model.addAttribute("companyList",infoService.findAllByCompany());
         return "/info/update";
     }
 
