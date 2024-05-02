@@ -97,7 +97,6 @@ public class InfoServiceImpl implements InfoService {
         Info info = infoRepository.findByInfoId(updateModel.infoId());
         switch (result) {
             case "Y" -> {
-
                 info.getMember().setCompany(companyRepository.findByCompanyId(updateModel.companyId()));
                 info.getMember().getAddName().setName(updateModel.memberName());
                 info.getMember().getAddName().setAddress(updateModel.memberAddress());
@@ -110,7 +109,7 @@ public class InfoServiceImpl implements InfoService {
                                 .name(updateModel.companyName())
                                 .address(updateModel.companyAddress())
                                 .build())
-                        .build();
+                                .build();
                 companyRepository.save(company);
                 info.getMember().setCompany(company);
                 info.getMember().getAddName().setName(updateModel.memberName());
@@ -124,7 +123,10 @@ public class InfoServiceImpl implements InfoService {
     @Transactional
     @Override
     public void delete(Long infoId) {
+        log.info("==================infoId=================={}",infoId);
+        log.info("================delete============={}",memberRepository.findByMemberId(infoId).getMemberId());
         infoRepository.deleteById(infoId);
+        memberRepository.deleteById(infoId);
     }
 
     @Override

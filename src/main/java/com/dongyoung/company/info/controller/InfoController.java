@@ -22,6 +22,7 @@ public class InfoController {
 
     @GetMapping("/write")
     public String write(Model model) {
+        model.addAttribute("companyList",infoService.findAllByCompany());
         return "/info/write";
     }
 
