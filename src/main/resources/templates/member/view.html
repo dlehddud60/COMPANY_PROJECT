@@ -1,42 +1,59 @@
 <!DOCTYPE html>
 <html lang="ko"
-      xmlns:th ="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>사원 리스트</title>
-  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-  <link rel="stylesheet" th:href="@{/css/member/view.css}">
+    <meta charset="UTF-8">
+    <title>사원 리스트</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <link rel="stylesheet" th:href="@{/css/member/view.css}">
 
 </head>
-  <body>
-  <th:block th:replace="~{/include/header.html :: headerFragment}"></th:block>
-    <div class="wrap">
-      <div class="boardArea">
+<body>
+<th:block th:replace="~{/include/header.html :: headerFragment}"></th:block>
+<div class="wrap">
+    <div class="boardArea">
 
         <div class="viewArea">
-          <table>
-            <tbody>
-              <tr>
-                <th>이름</th>
-                <td th:text="${info.name()}"></td>
-              </tr>
+            <table>
+                <tbody>
+                <tr>
+                    <th>사원 이름</th>
+                        <td th:text="${info.name()}">
+                    </td>
+                    <th>사원 주소</th>
+                        <td th:text="${info.address()}">
+                    </td>
+                </tr>
 
-              <tr class="detail">
-                <th>주소</th>
-                <td th:text="${info.address()}">이동영</td>
-              </tr>
-            </tbody>
-          </table>
-
+                <tr>
+                    <th>사원 직업</th>
+                        <td th:text="${info.infoAndMemberModel().career()}">
+                    </td>
+                    <th>사원 연봉</th>
+                        <td th:text="${info.infoAndMemberModel.salary()}">
+                    </td>
+                </tr>
+                <tr>
+                    <th>회사 이름</th>
+                        <td th:text="${info.companyAndMemberModel().name()}">
+                    </td>
+                    <th>회사 주소</th>
+                        <td th:text="${info.companyAndMemberModel().address()}">
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </div>
 
-      </div>
-      <div class="buttonArea">
-        <div class="listBtn Btn"><a th:href="@{/member/list}">목록</a></div>
-        <div class="updateBtn Btn"><a th:href="@{/member/update/{memberId}(memberId = ${info.memberId()})}" th:text="수정"></a></div>
-        <div class="deleteBtn Btn"><a th:href="@{/member/delete/{memberId}(memberId = ${info.memberId()})}" th:text="삭제"></a></div>
-      </div>
     </div>
-  <th:block th:replace="/include/header.html :: footerFragment"></th:block>
-  </body>
+    <div class="buttonArea">
+        <div class="listBtn Btn"><a th:href="@{/member/list}">목록</a></div>
+        <div class="updateBtn Btn"><a th:href="@{/member/update/{memberId}(memberId = ${info.memberId()})}"
+                                      th:text="수정"></a></div>
+        <div class="deleteBtn Btn"><a th:href="@{/member/delete/{memberId}(memberId = ${info.memberId()})}"
+                                      th:text="삭제"></a></div>
+    </div>
+</div>
+<th:block th:replace="/include/header.html :: footerFragment"></th:block>
+</body>
 </html>
