@@ -30,18 +30,6 @@ public class MemberServiceImpl implements MemberService {
     private final MemberQueryRepository memberQueryRepository;
     private final MemberMapper memberMapper;
 
-    @Transactional
-    @Override
-    public void save(FindRequestMemberInsertModel insertModel) {
-        Member member = Member.builder()
-                .addName(AddName.builder()
-                        .name(insertModel.name())
-                        .address(insertModel.address())
-                        .build())
-                .build();
-        memberRepository.save(member);
-    }
-
     @Override
     public List<FindResponseMemberListModel> list(Model model) {
         return memberRepository.findAll().stream().map(memberMapper::toMemberListModel).collect(Collectors.toList());
@@ -57,17 +45,4 @@ public class MemberServiceImpl implements MemberService {
         return memberMapper.toMemberModel(memberRepository.findByMemberId(memberId));
     }
 
-    @Transactional
-    @Override
-    public void update(FindRequestMemberUpdateModel findRequestMemberUpdateModel) {
-        Member member = memberRepository.findByMemberId(findRequestMemberUpdateModel.memberId());
-        member.getAddName().setName(findRequestMemberUpdateModel.name());
-        member.getAddName().setAddress(findRequestMemberUpdateModel.address());
-    }
-
-    @Transactional
-    @Override
-    public void delete(Long memberId) {
-        memberRepository.deleteById(memberId);
-    }
 }

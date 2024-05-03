@@ -14,19 +14,32 @@
 <th:block th:replace="~{/include/header.html :: headerFragment}"></th:block>
 <form action="" method="get">
     <div class="wrap">
-
         <div class="searchArea">
             <div class="searchAreaChild">
-                <select onchange="selectSearchFunc(this)">
-                    <option value="career">직업</option>
-                    <option value="memberName">사원이름</option>
-                    <option value="companyName">회사명</option>
+                <select onchange="selectSearchFunc(this)" class="selectSearch">
+                    <option value="career" th:selected="${not #strings.isEmpty(param.career)}">직업</option>
+                    <option value="memberName" th:selected="${not #strings.isEmpty(param.memberName)}">사원이름</option>
+                    <option value="companyName" th:selected="${not #strings.isEmpty(param.companyName)}">회사명</option>
                 </select>
-                <input type="text" name="career" id="searchInputBox" placeholder="이름을 입력해주세요.">
+                <th:block th:if="${not #strings.isEmpty(param.career)} or ${not #strings.isEmpty(param.memberName)} or ${not #strings.isEmpty(param.companyName)}">
+                    기본아님
+                    <th:block th:if="${not #strings.isEmpty(param.career)}">
+                        <input type="text" name="career" id="searchInputBox" th:value="${param.career}">
+                    </th:block>
+                    <th:block th:if="${not #strings.isEmpty(param.memberName)}">
+                        <input type="text" name="memberName" id="searchInputBox" th:value="${param.memberName}">
+                    </th:block>
+                    <th:block th:if="${not #strings.isEmpty(param.companyName)}">
+                        <input type="text" name="companyName" id="searchInputBox" th:value="${param.companyName}">
+                    </th:block>
+                </th:block>
+                <th:block th:unless="${not #strings.isEmpty(param.career)} or ${not #strings.isEmpty(param.memberName)} or ${not #strings.isEmpty(param.companyName)}">
+                    기본
+                    <input type="text" name="career" id="searchInputBox">
+                </th:block>
                 <button type="submit">search</button>
             </div>
         </div>
-
         <div class="boardArea">
             <div class="listArea">
                 <table>
@@ -49,7 +62,7 @@
                             <td th:text="${list.listModel().address()}"></td>
                             <td>
                                 <a th:href="@{/info/find/{infoId}( infoId = ${list.infoId})}"
-                                   th:text="${list.career}"></a>
+                                   th:text="${list.career}" style="color: #2b48dc "></a>
                             </td>
                             <td th:text="${list.salary}"></td>
                             <td th:text="${list.listModel().companyAndMemberListModel().name()}"></td>

@@ -50,7 +50,15 @@ a {
     justify-content:center;
     align-items : center;
 }
-input[name='searchValue'] {
+select {
+    width: 10%;
+    border-radius: 5px;
+    font-size: 1.5vw;
+    font-family: SUITE-Regular;
+    margin-right: 10px;
+
+}
+input  {
     font-family: SUITE-Regular;
     font-size: 1.5vw;
     border-radius: 5px;

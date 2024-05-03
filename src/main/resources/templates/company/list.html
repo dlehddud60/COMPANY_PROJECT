@@ -12,10 +12,9 @@
 <th:block th:replace="~{/include/header.html :: headerFragment}"></th:block>
 <form action="" method="get">
     <div class="wrap">
-
         <div class="searchArea">
             <div class="searchAreaChild">
-                <input type="text" name="name" placeholder="이름을 입력해주세요.">
+                <input type="text" name="name" placeholder="이름을 입력해주세요." th:value="${param.name}">
                 <button type="submit">search</button>
             </div>
         </div>
@@ -36,7 +35,7 @@
                             <td th:text="${list.companyId}"></td>
                             <td>
                                 <a th:href="@{/company/find/{companyId}( companyId = ${list.companyId})}"
-                                   th:text="${list.name}"></a>
+                                   th:text="${list.name}" style="color: #2b48dc"></a>
                             </td>
                             <td th:text="${list.address}"></td>
                         </tr>

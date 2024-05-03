@@ -42,7 +42,7 @@
                             <td th:text="${list.address()}"></td>
                             <td>
                                 <a th:href="@{/member/find/{memberId}( memberId = ${list.memberId()})}"
-                                   th:text="${list.infoAndMemberListModel().career()}"></a>
+                                   th:text="${list.infoAndMemberListModel().career()}" style="color: #2b48dc"></a>
                             </td>
                             <td th:text="${list.infoAndMemberListModel.salary()}"></td>
                             <td th:text="${list.companyAndMemberListModel().name()}"></td>
@@ -52,9 +52,6 @@
                     </tbody>
                 </table>
             </div>
-        </div>
-        <div class="buttonArea">
-            <div class="updateBtn Btn"><a th:href="@{/member/write}" style="color: white">작성</a> </div>
         </div>
         <div class="pageArea" th:with="start=${(list.number/maxPage)*maxPage+1},
         end=(${(list.totalPages == 0) ? 1 : (start + (maxPage - 1) < list.totalPages ? start + (maxPage - 1) : list.totalPages)})">

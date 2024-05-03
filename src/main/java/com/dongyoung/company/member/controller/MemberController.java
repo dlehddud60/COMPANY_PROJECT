@@ -19,17 +19,6 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController {
     private final MemberService memberService;
 
-    @GetMapping("/write")
-    public String write() {
-        return "/member/write";
-    }
-
-    @PostMapping("/save")
-    public String save(FindRequestMemberInsertModel insertModel) {
-        memberService.save(insertModel);
-        return "redirect:/member/list";
-    }
-
     @GetMapping("/list")
     public String list(Model model, SearchCondition searchCondition, @PageableDefault(page = 0, size = 10) Pageable pageable) {
         model.addAttribute("list", memberService.findAllByQueryDsl(searchCondition, pageable));
@@ -42,25 +31,6 @@ public class MemberController {
     public String find(@PathVariable(name = "memberId") Long memberId, Model model) {
         model.addAttribute("info", memberService.findByMemberId(memberId));
         return "/member/view";
-    }
-
-
-    @GetMapping("/update/{memberId}")
-    public String update(@PathVariable(name = "memberId") Long memberId, Model model) {
-        model.addAttribute("info", memberService.findByMemberId(memberId));
-        return "/member/update";
-    }
-
-    @PostMapping("/update")
-    public String update(FindRequestMemberUpdateModel findRequestMemberUpdateModel) {
-        memberService.update(findRequestMemberUpdateModel);
-        return "redirect:/member/find/" + findRequestMemberUpdateModel.memberId();
-    }
-
-    @GetMapping("/delete/{memberId}")
-    public String delete(@PathVariable(name = "memberId") Long memberId) {
-        memberService.delete(memberId);
-        return "redirect:/member/list";
     }
 
 }
