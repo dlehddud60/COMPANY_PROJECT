@@ -43,7 +43,6 @@ public class CompanyController {
     @GetMapping("/find/{companyId}")
     public String find(@PathVariable Long companyId, Model model) {
         FindResponseCompanyModel byCompanyId = companyService.findByCompanyId(companyId);
-        log.info("===============byCompanyId=============={}",byCompanyId);
         model.addAttribute("info", byCompanyId);
         return "/company/view";
     }
