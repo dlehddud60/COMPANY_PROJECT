@@ -1,5 +1,6 @@
 package com.dongyoung.company.info.repository.impl;
 
+import com.dongyoung.company.company.entity.QCompany;
 import com.dongyoung.company.info.entity.Info;
 import com.dongyoung.company.info.model.FindResponseInfoListModel;
 import com.dongyoung.company.info.model.SearchCondition;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.dongyoung.company.company.entity.QCompany.*;
 import static com.dongyoung.company.info.entity.QInfo.info;
 import static com.dongyoung.company.member.entity.QMember.*;
 
@@ -34,11 +36,12 @@ public class InfoQueryRepositoryImpl implements InfoQueryRepository {
         List<Info> list = queryFactory.selectFrom(info)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
-                .leftJoin(info.member,member)
-                .fetchJoin()
+                .join(info.member,member)
+                .join(member.company, company)
                 .where(
                         searchCareer(searchCondition.career()),
-                        searchMemberName(searchCondition.memberName())
+                        searchMemberName(searchCondition.memberName()),
+                        searchCompanyName(searchCondition.companyName())
                       )
                 .orderBy(info.infoId.desc())
                 .fetch();
@@ -51,6 +54,9 @@ public class InfoQueryRepositoryImpl implements InfoQueryRepository {
     }
 
     private BooleanExpression searchMemberName(String searchValue) {
+        return searchValue != null ? info.member.addName.name.contains(searchValue) : null;
+    }
+    private BooleanExpression searchCompanyName(String searchValue) {
         return searchValue != null ? info.member.addName.name.contains(searchValue) : null;
     }
 }

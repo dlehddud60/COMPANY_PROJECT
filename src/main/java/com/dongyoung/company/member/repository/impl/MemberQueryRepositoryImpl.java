@@ -1,5 +1,7 @@
 package com.dongyoung.company.member.repository.impl;
 
+import com.dongyoung.company.company.entity.QCompany;
+import com.dongyoung.company.info.entity.QInfo;
 import com.dongyoung.company.member.entity.Member;
 import com.dongyoung.company.member.entity.QMember;
 import com.dongyoung.company.member.model.FindResponseMemberListModel;
@@ -20,6 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.dongyoung.company.company.entity.QCompany.*;
+import static com.dongyoung.company.info.entity.QInfo.*;
 import static com.dongyoung.company.member.entity.QMember.member;
 
 @Repository
@@ -33,6 +37,8 @@ public class MemberQueryRepositoryImpl implements MemberQueryRepository {
         List<Member> list = queryFactory.selectFrom(member)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
+                .leftJoin(member.info, info)
+                .leftJoin(member.company, company)
                 .where(search(searchCondition.name()))
                 .orderBy(member.memberId.desc())
                 .fetch();
