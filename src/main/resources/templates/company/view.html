@@ -21,16 +21,45 @@
                 <td th:text="${info.name()}"></td>
               </tr>
 
-              <tr class="detail">
+              <tr>
                 <th>주소</th>
                 <td th:text="${info.address()}"></td>
               </tr>
             </tbody>
           </table>
-
         </div>
-
       </div>
+      <div class="boardArea">
+
+        <div class="viewArea">
+          <table>
+            <thead>
+            <tr>
+              <th class="num">번호</th>
+              <th class="writer">사원 이름</th>
+              <th class="writer">사원 주소</th>
+              <th class="title">직업</th>
+              <th class="writer">연봉</th>
+            </tr>
+            </thead>
+            <tbody>
+            <th:block th:each="list : ${info.members()}">
+              <tr>
+                <td th:text="${list.memberId()}"></td>
+                <td th:text="${list.name()}"></td>
+                <td th:text="${list.address()}"></td>
+                <td>
+                  <a th:href="@{/member/find/{memberId}( memberId = ${list.memberId()})}"
+                     th:text="${list.infoAndMemberModel().career()}"></a>
+                </td>
+                <td th:text="${list.infoAndMemberModel.salary()}"></td>
+              </tr>
+            </th:block>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
       <div class="buttonArea">
         <div class="listBtn Btn"><a th:href="@{/company/list}">목록</a></div>
         <div class="updateBtn Btn"><a th:href="@{/company/update/{companyId}(companyId = ${info.companyId()})}" th:text="수정"></a></div>

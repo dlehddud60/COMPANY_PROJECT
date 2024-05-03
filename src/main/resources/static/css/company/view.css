@@ -33,7 +33,7 @@
 
 
 .boardArea {
-    height: 50vh;
+    height: 30vh;
     width: 70%;
     margin: auto auto 1%;
     display: flex;
@@ -42,8 +42,8 @@
 
 }
 .viewArea {
-    padding-bottom: 3%;
     padding-top: 3%;
+    padding-bottom: 3%;
     height: 83%;
     width: 90%;
     display: flex;
